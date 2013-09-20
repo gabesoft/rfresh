@@ -1,21 +1,11 @@
-default: build
+default: test
 
-SRC = $(shell find src -name "*.coffee" -type f | sort)
-LIB = $(SRC:src/%.coffee=lib/%.js)
+MOCHA   = node_modules/.bin/mocha -u tdd --check-leaks
+VERSION = $(shell node -pe 'require("./package.json").version')
 
-COFFEE = node_modules/.bin/coffee --js
-MOCHA  = node_modules/.bin/mocha --compilers coffee:coffee-script-redux -u tdd --check-leaks
-
-all: build test
-build: $(LIB)
-
-lib/%.js: src/%.coffee
-	mkdir -p "$(@D)"
-	$(COFFEE) <"$<" >"$@"
+all: test
 
 .PHONY: release test loc clean
-
-VERSION = $(shell node -pe 'require("./package.json").version')
 
 tag:
 	@git tag -a "v$(VERSION)" -m "Version $(VERSION)"
@@ -33,16 +23,11 @@ test-all: build
 	@NODE_ENV=test $(MOCHA) -R spec test/*.coffee --timeout 10000
 
 loc:
-	@find src/ -name *.coffee | xargs wc -l
+	@find src/ -name *.js | xargs wc -l
 
 setup:
 	@npm install . -d
 
-clean:
-	@rm -rf $(LIB)
-
-clean-lib:
-	@rm -rf lib
-
 clean-dep:
 	@rm -rf node_modules
+
