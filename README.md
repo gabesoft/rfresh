@@ -1,0 +1,3 @@
+#rfresh#
+
+*Static file reloader*

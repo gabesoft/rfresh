@@ -1,0 +1,24 @@
+{
+    "name": "rfresh",
+    "version": "0.0.1",
+    "description": "Static file reloader",
+    "preferGlobal": false,
+    "main": "./lib/index.js",
+    "bin": {},
+    "dependencies": {
+        "express": "~3.4.0",
+        "ws": "~0.4.30"
+    },
+    "devDependencies": {
+        "mocha": "~1.9.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:gabesoft/rfresh.git"
+    },
+    "author": {
+        "name": "Gabriel Adomnicai",
+        "email": "gabesoft@gmail.com"
+    },
+    "license": "MIT"
+}
