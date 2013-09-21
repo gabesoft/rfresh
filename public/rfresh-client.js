@@ -26,7 +26,7 @@
                     }
                 })
                .filter(function (el) {
-                    return !el.path.match(/rfresh-client/);
+                    return !el.url.match(/rfresh-client/);
                 })
         };
 
