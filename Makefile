@@ -7,6 +7,9 @@ all: test
 
 .PHONY: release test loc clean
 
+run:
+	@node-dev lib/server.js
+
 tag:
 	@git tag -a "v$(VERSION)" -m "Version $(VERSION)"
 
