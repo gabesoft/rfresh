@@ -1,3 +1,6 @@
-.body {
+body {
   background-color: gray;
+  border: 1px solid brown;
+  height: 200px;
+  margin: 30px;
 }

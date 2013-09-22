@@ -1,6 +1,7 @@
 (function (exports) {
     var doc    = exports.document
       , loc    = exports.location
+      , head   = doc.getElementsByTagName('head')[0]
       , host   = loc.host
       , slice  = Array.prototype.slice
       , map    = Array.prototype.map
@@ -8,6 +9,20 @@
 
     var elsByTag = function (tag) {
             return slice.call(doc.getElementsByTagName(tag));
+        };
+
+    var createStylesheetEl = function (href) {
+            var el = document.createElement('link');
+            el.setAttribute('rel', 'stylesheet');
+            el.setAttribute('href', href);
+            head.appendChild(el);
+            return el;
+        };
+
+    var getStylesheetEl = function (href) {
+            return elsByTag('link').filter(function (el) {
+                return el.href === href;
+            })[0] || createStylesheetEl(href);
         };
 
     var getScripts = function () {
@@ -20,7 +35,8 @@
                     var path = el.href || el.src;
 
                     return {
-                        url  : path.replace(loc.origin, '')
+                        href : path
+                      , url  : path.replace(loc.origin, '')
                       , type : el.type
                       , tag  : el.tagName
                     }
@@ -30,14 +46,35 @@
                 })
         };
 
+    var reloadStylesheet = function (data) {
+            var el = getStylesheetEl(data.href)
+              , now = 'rfresh_reload=' + Date.now()
+              , sep = data.href.indexOf('?') === -1 ? '?' : '&'
+              , cacheBust = sep + now;
+
+            el.href = data.href + cacheBust;
+        };
+
+    var reloadPage = function (data) {
+            var bypassCache = false;
+            loc.reload(bypassCache);
+        };
+
     exports.getScripts = getScripts;
 
     socket.onopen = function (e) {
-        var data = JSON.stringify(getScripts());
+        var scripts = getScripts()
+          , data    = JSON.stringify(scripts);
         socket.send(data);
     };
 
     socket.onmessage = function (e) {
-        console.log(e.data);
+        var data = JSON.parse(e.data);
+
+        if (data.tag === 'LINK') {
+            reloadStylesheet(data);
+        } else {
+            reloadPage(data);
+        }
     };
 })(window);
