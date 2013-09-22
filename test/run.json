@@ -1,7 +1,8 @@
 {
     // TODO: make mpr work with relative paths
     "main-server": {
-        "command": "/work/rfresh/node_modules/node-dev/bin/node-dev"
+        "command": "./node_modules/node-dev/bin/node-dev"
+      , "resolvePath": true
       , "color": "blue"
       , "cwd": "."
       , "args": [
@@ -12,7 +13,8 @@
         ]
     }
   , "test-server": {
-        "command": "/work/rfresh/node_modules/node-dev/bin/node-dev"
+        "command": "./node_modules/node-dev/bin/node-dev"
+      , "resolvePath": true
       , "color": "cyan"
       , "cwd": "./test"
       , "env": { "PORT": 8002 }
