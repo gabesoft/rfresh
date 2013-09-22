@@ -27,7 +27,7 @@
     }
 
     function createStylesheetEl (href) {
-        var el = document.createElement('link');
+        var el = doc.createElement('link');
         el.setAttribute('rel', 'stylesheet');
         el.setAttribute('href', href);
         head.appendChild(el);
