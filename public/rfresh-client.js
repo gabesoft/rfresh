@@ -1,64 +1,79 @@
 (function (exports) {
     var doc    = exports.document
       , loc    = exports.location
-      , head   = doc.getElementsByTagName('head')[0]
-      , host   = loc.host
       , slice  = Array.prototype.slice
+      , head   = elsByTag('head')[0]
+      , host   = loc.host
       , map    = Array.prototype.map
-      , socket = new WebSocket('ws://' + host);
+      , socket = initializeWebSocket();
 
-    var elsByTag = function (tag) {
-            return slice.call(doc.getElementsByTagName(tag));
-        };
-
-    var createStylesheetEl = function (href) {
-            var el = document.createElement('link');
-            el.setAttribute('rel', 'stylesheet');
-            el.setAttribute('href', href);
-            head.appendChild(el);
-            return el;
-        };
-
-    var getStylesheetEl = function (href) {
-            return elsByTag('link').filter(function (el) {
-                return el.href === href;
-            })[0] || createStylesheetEl(href);
-        };
-
-    var getScripts = function () {
-            var els = []
-                   .concat(elsByTag('script'))
-                   .concat(elsByTag('link'));
-
-            return els
-               .map(function (el) {
-                    var path = el.href || el.src;
-
-                    return {
-                        href : path
-                      , url  : path.replace(loc.origin, '')
-                      , type : el.type
-                      , tag  : el.tagName
-                    }
-                })
+    function initializeWebSocket () {
+        var el = elsByTag('script')
                .filter(function (el) {
-                    return !el.url.match(/rfresh-client/);
-                })
-        };
+                    return el.src && el.src.match(/rfresh-client/);
+                })[0]
+          , url = parseUrl(el.src);
+        return new WebSocket('ws://' + url.host);
+    }
 
-    var reloadStylesheet = function (data) {
-            var el = getStylesheetEl(data.href)
-              , now = 'rfresh_reload=' + Date.now()
-              , sep = data.href.indexOf('?') === -1 ? '?' : '&'
-              , cacheBust = sep + now;
+    function parseUrl (url) {
+        var el = doc.createElement('a');
+        el.href = url;
+        return el;
+    }
 
-            el.href = data.href + cacheBust;
-        };
+    function elsByTag (tag) {
+        return slice.call(doc.getElementsByTagName(tag));
+    }
 
-    var reloadPage = function (data) {
-            var bypassCache = false;
-            loc.reload(bypassCache);
-        };
+    function createStylesheetEl (href) {
+        var el = document.createElement('link');
+        el.setAttribute('rel', 'stylesheet');
+        el.setAttribute('href', href);
+        head.appendChild(el);
+        return el;
+    }
+
+    function getStylesheetEl (href) {
+        return elsByTag('link').filter(function (el) {
+            return el.href === href;
+        })[0] || createStylesheetEl(href);
+    }
+
+    function getScripts () {
+        var els = []
+               .concat(elsByTag('script'))
+               .concat(elsByTag('link'));
+
+        return els
+           .map(function (el) {
+                var path = el.href || el.src;
+
+                return {
+                    href : path
+                  , url  : path.replace(loc.origin, '')
+                  , type : el.type
+                  , tag  : el.tagName
+                }
+            })
+           .filter(function (el) {
+                return !el.url.match(/rfresh-client/);
+            })
+    }
+
+    function reloadStylesheet (data) {
+        var el = getStylesheetEl(data.href)
+          , now = 'rfresh_reload=' + Date.now()
+          , sep = data.href.indexOf('?') === -1 ? '?' : '&'
+          , cacheBust = sep + now;
+
+        el.href = data.href + cacheBust;
+    }
+
+    function reloadPage (data) {
+        var bypassCache = false;
+        loc.reload(bypassCache);
+    }
 
     exports.getScripts = getScripts;
 

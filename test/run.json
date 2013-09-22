@@ -1,0 +1,21 @@
+{
+    // TODO: make mpr work with relative paths
+    "main-server": {
+        "command": "/work/rfresh/node_modules/node-dev/bin/node-dev"
+      , "color": "blue"
+      , "cwd": "."
+      , "args": [
+            "./lib/index.js"
+          , "--port 8003"
+          , "--dir ./test"
+          , "--rewrite ^:public/"
+        ]
+    }
+  , "test-server": {
+        "command": "/work/rfresh/node_modules/node-dev/bin/node-dev"
+      , "color": "cyan"
+      , "cwd": "./test"
+      , "env": { "PORT": 8002 }
+      , "args": [ "./server.js" ]
+    }
+}
