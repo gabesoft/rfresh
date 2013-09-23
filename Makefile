@@ -29,7 +29,7 @@ test-all: build
 	@NODE_ENV=test $(MOCHA) -R spec test/*.coffee --timeout 10000
 
 loc:
-	@find src/ -name *.js | xargs wc -l
+	@find lib/ -name *.js | xargs wc -l
 
 setup:
 	@npm install . -d
