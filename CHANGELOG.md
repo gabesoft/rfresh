@@ -1,3 +1,7 @@
+0.0.6
+-----
+Timeout increase
+
 0.0.5
 -----
 Allow multiple path rewrites
