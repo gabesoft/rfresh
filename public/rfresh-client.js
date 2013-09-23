@@ -1,11 +1,20 @@
 (function (exports) {
-    var doc    = exports.document
-      , loc    = exports.location
-      , slice  = Array.prototype.slice
-      , head   = elsByTag('head')[0]
-      , host   = loc.host
-      , map    = Array.prototype.map
-      , socket = initializeWebSocket();
+    var doc     = exports.document
+      , loc     = exports.location
+      , title   = doc.title
+      , slice   = Array.prototype.slice
+      , head    = elsByTag('head')[0]
+      , host    = loc.host
+      , map     = Array.prototype.map
+      , socket  = initializeWebSocket()
+      , timeout = { load: 100, status: 2000 };
+
+    function status (msg) {
+        doc.title = msg;
+        setTimeout(function () {
+            doc.title = title;
+        }, timeout.status);
+    }
 
     function initializeWebSocket () {
         var el = elsByTag('script')
@@ -36,7 +45,7 @@
 
     function getStylesheetEl (href) {
         return elsByTag('link').filter(function (el) {
-            return el.href === href;
+            return el.href.match(new RegExp(href));
         })[0] || createStylesheetEl(href);
     }
 
@@ -57,7 +66,7 @@
                 }
             })
            .filter(function (el) {
-                return !el.url.match(/rfresh-client/);
+                return !el.url.match(/rfresh-client/) && el.url.length > 0;
             })
     }
 
@@ -67,6 +76,7 @@
           , sep = data.href.indexOf('?') === -1 ? '?' : '&'
           , cacheBust = sep + now;
 
+        status('reloaded ' + data.href);
         el.href = data.href + cacheBust;
     }
 
@@ -78,9 +88,11 @@
     exports.getScripts = getScripts;
 
     socket.onopen = function (e) {
-        var scripts = getScripts()
-          , data    = JSON.stringify(scripts);
-        socket.send(data);
+        setTimeout(function () {
+            var scripts = getScripts()
+              , data    = JSON.stringify(scripts);
+            socket.send(data);
+        }, timeout.load);
     };
 
     socket.onmessage = function (e) {
