@@ -15,7 +15,7 @@
     "devDependencies": {
         "eyes": "~0.1.8",
         "mocha": "~1.9.0",
-        "mpr": "~0.1.6",
+        "mpr": "~0.1.8",
         "node-dev": "~2.0.2"
     },
     "repository": {
