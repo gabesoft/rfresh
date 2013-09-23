@@ -1,9 +1,11 @@
 {
   "name": "rfresh",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Static file reloader",
   "preferGlobal": true,
-  "bin": {},
+  "bin": {
+    "rfresh": "./bin/rfresh"
+  },
   "dependencies": {
     "express": "~3.4.0",
     "ws": "~0.4.30",
@@ -22,9 +24,6 @@
     "url": "git@github.com:gabesoft/rfresh.git"
   },
   "main": "./lib/index.js",
-  "bin": {
-      "rfresh": "./bin/rfresh"
-  },
   "author": {
     "name": "Gabriel Adomnicai",
     "email": "gabesoft@gmail.com"
