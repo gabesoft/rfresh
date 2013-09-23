@@ -7,7 +7,7 @@
       , host    = loc.host
       , map     = Array.prototype.map
       , socket  = initializeWebSocket()
-      , timeout = { load: 300, status: 2000 };
+      , timeout = { load: 500, status: 2000 };
 
     function status (msg) {
         doc.title = msg;
