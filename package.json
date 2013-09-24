@@ -11,7 +11,7 @@
     "ws": "~0.4.30",
     "optimist": "~0.6.0",
     "colors": "~0.6.2",
-    "watch-fs": "0.0.5"
+    "gaze": "~0.4.1"
   },
   "devDependencies": {
     "eyes": "~0.1.8",
