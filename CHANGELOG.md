@@ -1,3 +1,7 @@
+0.0.7
+-----
+Use a different file watcher
+
 0.0.6
 -----
 Timeout increase
