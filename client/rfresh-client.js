@@ -8,7 +8,7 @@
       , map     = Array.prototype.map
       , socket  = initializeWebSocket()
       , tags    = '{{type}}'.split(',')
-      , timeout = { load: '{{delay}}' * 1, status: 3000 };
+      , timeout = { load: parseInt('{{delay}}'), status: 3000 };
 
     function status (msg) {
         doc.title = msg;
@@ -89,7 +89,7 @@
     }
 
     function ready (cb) {
-        if (timeout.load && timeout.load > 0) {
+        if (timeout.load && !isNaN(timeout.load) && timeout.load > 0) {
             setTimeout(cb, timeout.load);
         } else if (doc.readyState === 'complete') {
             cb();

@@ -5,7 +5,11 @@ VERSION = $(shell node -pe 'require("./package.json").version')
 
 all: test
 
-.PHONY: release test loc clean
+.PHONY: release test loc clean no_targets__ help
+
+no_targets__:
+help:
+	@sh -c "$(MAKE) -rpn no_targets__ | awk -F':' '/^[a-zA-Z0-9][^\$$#\/\\t=]*:([^=]|$$)/ {split(\$$1,A,/ /);for(i in A)print A[i]}' | grep -v '__\$$' | grep -v 'Makefile' | grep -v 'make\[1\]' | sort"
 
 run:
 	@./node_modules/node-dev/bin/node-dev lib/server.js
@@ -35,5 +39,5 @@ setup:
 	@npm install . -d
 
 clean-dep:
-	@rm -rf node_modules
+	rm -rf node_modules
 
