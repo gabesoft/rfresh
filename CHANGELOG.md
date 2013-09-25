@@ -1,3 +1,7 @@
+0.0.8
+-----
+Added delay and type parameters
+
 0.0.7
 -----
 Use a different file watcher
