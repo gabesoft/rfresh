@@ -1,3 +1,7 @@
+0.0.9
+-----
+Client js fixes
+
 0.0.8
 -----
 Added delay and type parameters
