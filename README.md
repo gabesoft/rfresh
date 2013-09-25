@@ -14,11 +14,11 @@ ________/ ____\______   ____   _____|  |__
 
 ## Client setup ##
 
-Either add a script tag like the one below to the html page.
+Load the rfresh client by inserting a script tag like the one below to the html page.
 
 ``` html
 <script type="text/javascript" src="http://localhost:8003/rfresh-client.js"></script>
 ```
 
-Or use greasemonkey or tampermonkey with a script like [this](https://github.com/gabesoft/rfresh/blob/master/scripts/rfresh.user.js) one.
+Or load the rfresh client via greasemonkey or tampermonkey with a script like [this](https://github.com/gabesoft/rfresh/blob/master/scripts/rfresh.user.js) one.
 
