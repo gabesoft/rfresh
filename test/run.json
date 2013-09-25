@@ -1,5 +1,4 @@
 {
-    // TODO: make mpr work with relative paths
     "main-server": {
         "command": "./node_modules/node-dev/bin/node-dev"
       , "resolvePath": true
@@ -10,6 +9,8 @@
           , "--port 8003"
           , "--dir ./test"
           , "--rewrite ^:public/"
+          , "--type script,link"
+          , "--delay 200"
         ]
     }
   , "test-server": {

@@ -7,7 +7,8 @@
       , host    = loc.host
       , map     = Array.prototype.map
       , socket  = initializeWebSocket()
-      , timeout = { load: 500, status: 2000 };
+      , tags    = '{{type}}'.split(',')
+      , timeout = { load: '{{delay}}' * 1, status: 3000 };
 
     function status (msg) {
         doc.title = msg;
@@ -50,9 +51,11 @@
     }
 
     function getScripts () {
-        var els = []
-               .concat(elsByTag('script'))
-               .concat(elsByTag('link'));
+        var els = [];
+
+        tags.forEach(function (tag) {
+            els = els.concat(elsByTag(tag));
+        });
 
         return els
            .map(function (el) {
@@ -85,14 +88,22 @@
         loc.reload(bypassCache);
     }
 
-    exports.getScripts = getScripts;
+    function ready (cb) {
+        if (timeout.load && timeout.load > 0) {
+            setTimeout(cb, timeout.load);
+        } else if (doc.readyState === 'complete') {
+            cb();
+        } else {
+            window.addEventListener('load', cb, false);
+        }
+    }
 
     socket.onopen = function (e) {
-        setTimeout(function () {
+        ready(function () {
             var scripts = getScripts()
               , data    = JSON.stringify(scripts);
             socket.send(data);
-        }, timeout.load);
+        });
     };
 
     socket.onmessage = function (e) {
