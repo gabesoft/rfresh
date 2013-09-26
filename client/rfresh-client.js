@@ -65,12 +65,15 @@
                     href : path
                   , url  : path.replace(loc.origin, '')
                   , type : el.type
+                  , rel  : el.rel
                   , tag  : el.tagName
                 }
             })
            .filter(function (el) {
-                return !el.url.match(/rfresh-client/) && el.url.length > 0;
-            })
+                var rfresh   = el.url.match(/rfresh-client/) && el.url.length > 0
+                  , external = el.url.match(/https?:/);
+                return !rfresh && !external && (el.tag !== 'LINK' || el.rel == 'stylesheet');
+           });
     }
 
     function reloadStylesheet (data) {
