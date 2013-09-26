@@ -1,3 +1,7 @@
+0.0.11
+-----
+Skip external stylesheets
+
 0.0.10
 -----
 Readme updates
