@@ -1,3 +1,7 @@
+0.0.14
+-----
+Added colors to log statements
+
 0.0.13
 -----
 Code cleanup
