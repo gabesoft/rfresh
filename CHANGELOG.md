@@ -1,3 +1,7 @@
+0.0.12
+-----
+Added multiple client support
+
 0.0.11
 -----
 Skip external stylesheets
