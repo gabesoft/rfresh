@@ -1,3 +1,7 @@
+0.0.13
+-----
+Code cleanup
+
 0.0.12
 -----
 Added multiple client support
