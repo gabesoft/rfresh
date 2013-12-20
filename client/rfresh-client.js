@@ -8,7 +8,7 @@
       , map     = Array.prototype.map
       , socket  = initializeWebSocket()
       , tags    = '{{type}}'.split(',')
-      , timeout = { load: parseInt('{{delay}}'), status: 3000 };
+      , timeout = { load: parseInt('{{delay}}', 10), status: 3000 };
 
     function status (msg) {
         doc.title = msg;
@@ -67,12 +67,13 @@
                   , type : el.type
                   , rel  : el.rel
                   , tag  : el.tagName
-                }
+                };
             })
            .filter(function (el) {
                 var rfresh   = el.url.match(/rfresh-client/) && el.url.length > 0
+                  , empty    = el.url.length === 0
                   , external = el.url.match(/https?:/);
-                return !rfresh && !external && (el.tag !== 'LINK' || el.rel == 'stylesheet');
+                return !rfresh && !external && !empty && (el.tag !== 'LINK' || el.rel == 'stylesheet');
            });
     }
 
@@ -86,14 +87,27 @@
         el.href = data.href + cacheBust;
     }
 
-    function reloadPage (data) {
+    function reloadPage () {
         var bypassCache = false;
         loc.reload(bypassCache);
     }
 
     function ready (cb) {
+        var itemCount = 0
+          , delay     = 1000;
+
+        function countItems () {
+            var count = getScripts().length;
+            if (count > itemCount) {
+                itemCount = count;
+                setTimeout(countItems, delay);
+            } else {
+                cb();
+            }
+        }
+
         if (timeout.load && !isNaN(timeout.load) && timeout.load > 0) {
-            setTimeout(cb, timeout.load);
+            setTimeout(countItems, timeout.load);
         } else if (doc.readyState === 'complete') {
             cb();
         } else {
@@ -115,7 +129,7 @@
         if (data.tag === 'LINK') {
             reloadStylesheet(data);
         } else {
-            reloadPage(data);
+            reloadPage();
         }
     };
 })(window);
