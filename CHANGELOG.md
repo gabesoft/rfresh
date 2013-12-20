@@ -1,3 +1,7 @@
+0.0.15
+-----
+Use a different fs watcher + client fixes
+
 0.0.14
 -----
 Added colors to log statements

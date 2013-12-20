@@ -1,6 +1,6 @@
 {
   "name": "rfresh",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Static file reloader",
   "preferGlobal": true,
   "bin": {
