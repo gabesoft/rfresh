@@ -96,18 +96,18 @@
         var itemCount = 0
           , delay     = 1000;
 
-        function countItems () {
+        function runWhenLoaded () {
             var count = getScripts().length;
             if (count > itemCount) {
                 itemCount = count;
-                setTimeout(countItems, delay);
+                setTimeout(runWhenLoaded, delay);
             } else {
                 cb();
             }
         }
 
         if (timeout.load && !isNaN(timeout.load) && timeout.load > 0) {
-            setTimeout(countItems, timeout.load);
+            setTimeout(runWhenLoaded, timeout.load);
         } else if (doc.readyState === 'complete') {
             cb();
         } else {
