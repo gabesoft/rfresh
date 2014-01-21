@@ -1,3 +1,7 @@
+0.0.16
+-----
+Rewrite path separator change + option to allow external client scripts
+
 0.0.15
 -----
 Use a different fs watcher + client fixes
