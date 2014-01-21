@@ -72,7 +72,7 @@
            .filter(function (el) {
                 var rfresh   = el.url.match(/rfresh-client/) && el.url.length > 0
                   , empty    = el.url.length === 0
-                  , external = el.url.match(/https?:/);
+                  , external = !{{allowExternal}} && el.url.match(/https?:/);
                 return !rfresh && !external && !empty && (el.tag !== 'LINK' || el.rel == 'stylesheet');
            });
     }
