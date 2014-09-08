@@ -1,14 +1,15 @@
 (function (exports) {
-    var doc     = exports.document
-      , loc     = exports.location
-      , title   = doc.title
-      , slice   = Array.prototype.slice
-      , head    = elsByTag('head')[0]
-      , host    = loc.host
-      , map     = Array.prototype.map
-      , socket  = initializeWebSocket()
-      , tags    = '{{type}}'.split(',')
-      , timeout = { load: parseInt('{{delay}}', 10), status: 3000 };
+    var doc        = exports.document
+      , loc        = exports.location
+      , title      = doc.title
+      , slice      = Array.prototype.slice
+      , head       = elsByTag('head')[0]
+      , host       = loc.host
+      , map        = Array.prototype.map
+      , socket     = initializeWebSocket()
+      , tags       = '{{type}}'.split(',')
+      , cssRefresh = '{{cssRefresh}}' === 'true'
+      , timeout    = { load: parseInt('{{delay}}', 10), status: 3000 };
 
     function status (msg) {
         doc.title = msg;
@@ -126,7 +127,7 @@
     socket.onmessage = function (e) {
         var data = JSON.parse(e.data);
 
-        if (data.tag === 'LINK') {
+        if (data.tag === 'LINK' && !cssRefresh) {
             reloadStylesheet(data);
         } else {
             reloadPage();
