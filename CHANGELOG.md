@@ -1,3 +1,7 @@
+0.0.17
+-----
+Added cssRefresh flag
+
 0.0.16
 -----
 Rewrite path separator change + option to allow external client scripts
