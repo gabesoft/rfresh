@@ -1,3 +1,7 @@
+0.0.18
+-----
+Argument default for allowExternal
+
 0.0.17
 -----
 Added cssRefresh flag
