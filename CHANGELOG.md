@@ -1,3 +1,7 @@
+0.0.19
+-----
+Argument default for allowExternal - take 2
+
 0.0.18
 -----
 Argument default for allowExternal
