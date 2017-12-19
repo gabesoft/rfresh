@@ -1,15 +1,17 @@
-var WSServer = require('ws').Server
-  , http     = require('http')
-  , path     = require('path')
-  , express  = require('express')
-  , app      = express()
-  , port     = process.env.PORT || 8002;
+const WSServer   = require('ws').Server;
+const http       = require('http');
+const path       = require('path');
+const express    = require('express');
+const app        = express();
+const morgan     = require('morgan');
+const port       = process.env.PORT || 8002;
+const bodyParser = require('body-parser');
 
-app.use(express.logger('dev'));
-app.use(express.static(path.join(__dirname, './public')));
-app.use(express.bodyParser());
+app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname, './client')));
+app.use(bodyParser.text({ type: 'text/html' }));
 
 server = http.createServer(app);
 server.listen(port, function () {
-    console.log('test server started on port ' + port);
+  console.log('test server started on port ' + port);
 });

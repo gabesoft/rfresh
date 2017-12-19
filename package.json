@@ -1,19 +1,21 @@
 {
   "name": "rfresh",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Static file reloader",
   "preferGlobal": true,
   "bin": {
     "rfresh": "./bin/rfresh"
   },
   "dependencies": {
-    "express": "~3.4.0",
-    "ws": "~0.4.30",
+    "chokidar": "^1.7.0",
+    "colors": "1.1.2",
+    "handlebars": "4.0.1",
+    "express": "4.1.1",
     "optimist": "~0.6.0",
-    "colors": "~0.6.2",
-    "handlebars": "~1.0.12",
-    "watch-fs": "0.0.7",
-    "posix": "~1.0.3"
+    "posix": "4.1.1",
+    "body-parser": "^1.18.2",
+    "morgan": "^1.9.0",
+    "ws": "3.3.3"
   },
   "devDependencies": {
     "eyes": "~0.1.8",
