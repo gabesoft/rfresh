@@ -6,33 +6,33 @@ all: test
 
 .PHONY: release test loc clean no_targets__ help
 
-no_targets__:
-help:
-	@sh -c "$(MAKE) -rpn no_targets__ | awk -F':' '/^[a-zA-Z0-9][^\$$#\/\\t=]*:([^=]|$$)/ {split(\$$1,A,/ /);for(i in A)print A[i]}' | grep -v '__\$$' | grep -v 'Makefile' | grep -v 'make\[1\]' | sort"
-
+# Run the rfresh server
 run:
 	@./node_modules/node-dev/bin/node-dev lib/server.js
 
+# Run the rfresh server along with the test server
 run-test:
-	@./node_modules/mpr/bin/mpr run ./test/run.json
-
-tag:
-	@git tag -a "v$(VERSION)" -m "Version $(VERSION)"
-
-tag-push: tag
-	@git push --tags origin HEAD:master
-
-loc:
-	@find lib/ -name *.js | xargs wc -l
-
-setup:
-	@npm install . -d
-
-test-server:
 	@echo 'run "open http://localhost:8002/" and make changes to files in test/public'
 	@node lib/index.js -p 8003 -r "/::/test/public/" &
 	@node test/server.js
 
+# Add a version tag
+tag:
+	@git tag -a "v$(VERSION)" -m "Version $(VERSION)"
+
+# Add a version tag and push changes to master
+tag-push: tag
+	@git push --tags origin HEAD:master
+
+# Display line counts per source file
+loc:
+	@find lib/ -name *.js | xargs wc -l
+
+# Setup npm dependencies
+setup:
+	@npm install . -d
+
+# Clean npm dependencies
 clean-dep:
-	rm -rf node_modules
+	$(RM) -r node_modules
 
