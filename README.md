@@ -8,7 +8,7 @@ ________/ ____\______   ____   _____|  |__
 
 ```
 
-# Static file reloader
+# An unobtrusive static file reloader
 
 <img src="https://raw.github.com/gabesoft/rfresh/master/assets/screen.png"/>
 
