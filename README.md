@@ -8,11 +8,11 @@ ________/ ____\______   ____   _____|  |__
 
 ```
 
-#Static file reloader#
+# Static file reloader
 
 <img src="https://raw.github.com/gabesoft/rfresh/master/assets/screen.png"/>
 
-## Client setup ##
+## Client setup
 
 Load the rfresh client by inserting a script tag like the one below to the html page.
 
