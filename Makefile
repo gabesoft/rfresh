@@ -28,6 +28,11 @@ loc:
 setup:
 	@npm install . -d
 
+test-server:
+	@echo 'run "open http://localhost:8002/" and make changes to files in test/public'
+	@node lib/index.js -p 8003 -r "/::/test/public/" &
+	@node test/server.js
+
 clean-dep:
 	rm -rf node_modules
 

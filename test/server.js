@@ -8,7 +8,7 @@ const port       = process.env.PORT || 8002;
 const bodyParser = require('body-parser');
 
 app.use(morgan('dev'));
-app.use(express.static(path.join(__dirname, './client')));
+app.use(express.static(path.join(__dirname, './public')));
 app.use(bodyParser.text({ type: 'text/html' }));
 
 server = http.createServer(app);

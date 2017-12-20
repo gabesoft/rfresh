@@ -1,4 +1,11 @@
-h3 {
-  color: lime;
+h3, h4 {
   margin: 20px;
+}
+
+h3 {
+  color: lightblue;
+}
+
+h4 {
+  color: lightgreen;
 }
