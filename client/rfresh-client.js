@@ -1,15 +1,16 @@
 (function (exports) {
-  var doc        = exports.document
-    , loc        = exports.location
-    , title      = doc.title
-    , slice      = Array.prototype.slice
-    , head       = elsByTag('head')[0]
-    , host       = loc.host
-    , map        = Array.prototype.map
-    , socket     = initializeWebSocket()
-    , tags       = '{{type}}'.split(',')
-    , cssRefresh = '{{cssRefresh}}' === 'true'
-    , timeout    = { load: parseInt('{{delay}}', 10), status: 3000 };
+  const doc = exports.document;
+  const loc = exports.location;
+  const title = doc.title;
+  const slice = Array.prototype.slice;
+  const head = elsByTag('head')[0];
+  const host = loc.host;
+  const map = Array.prototype.map;
+  const socket = initializeWebSocket();
+  const tags = '{{type}}'.split(',');
+  const cssRefresh = '{{cssRefresh}}' === 'true';
+  const reloadTimeout = parseInt('{{cssReloadTimeout}}', 10) || 500;
+  const timeout = { load: parseInt('{{delay}}', 10), status: 3000 };
 
   function status (msg) {
     doc.title = msg;
@@ -48,7 +49,6 @@
   function pollUntilCssLoads(clone, cb) {
     const poll = function() {
       if (clone.sheet) {
-        status('stylesheet reloaded ' + clone.href);
         cb();
       } else {
         setTimeout(poll, 50);
@@ -60,7 +60,6 @@
 
   function waitUntilCssLoads(clone, cb) {
     clone.onload = function() {
-      console.log('reloaded', clone.href);
       status('stylesheet reloaded ' + clone.href);
       cb();
     };
@@ -78,11 +77,11 @@
 
     waitUntilCssLoads(clone, function() {
       setTimeout(function() {
-        if (parent) {
-          parent.removeChild(link);
+        if (link.parentNode) {
+          link.parentNode.removeChild(link);
           clone.onreadystatechange = null;
         }
-      }, 200);
+      }, reloadTimeout);
     });
 
     return clone;
