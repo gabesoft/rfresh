@@ -9,8 +9,8 @@
   const socket = initializeWebSocket();
   const tags = '{{type}}'.split(',');
   const cssRefresh = '{{cssRefresh}}' === 'true';
-  const reloadTimeout = parseInt('{{cssReloadTimeout}}', 10) || 500;
   const timeout = { load: parseInt('{{delay}}', 10), status: 3000 };
+  const loading = {};
 
   function status (msg) {
     doc.title = msg;
@@ -65,7 +65,7 @@
     };
   }
 
-  function reloadStylesheetEl(link, href) {
+  function reloadStylesheetEl(link, href, cb) {
     const clone = createLinkEl(href, link.media);
     const parent = link.parentNode;
 
@@ -76,15 +76,14 @@
     }
 
     waitUntilCssLoads(clone, function() {
-      setTimeout(function() {
-        if (link.parentNode) {
-          link.parentNode.removeChild(link);
-          clone.onreadystatechange = null;
-        }
-      }, reloadTimeout);
+      if (link.parentNode) {
+        link.parentNode.removeChild(link);
+        clone.onreadystatechange = null;
+      }
+      if (cb) {
+        cb(clone);
+      }
     });
-
-    return clone;
   }
 
   function createLinkAndAddToHead(href, media) {
@@ -128,12 +127,33 @@
       });
   }
 
+  function queueReloadStylesheet(data) {
+    const poll = function() {
+      if (loading[data.href]) {
+        setTimeout(poll, 100);
+      } else {
+        reloadStylesheet(data);
+      }
+    };
+
+    poll();
+  }
+
   function reloadStylesheet (data) {
+    if (loading[data.href]) {
+      queueReloadStylesheet(data);
+      return;
+    }
+
+    loading[data.href] = true;
     const el = getStylesheetEl(data.href);
     const now = 'rfresh_reload=' + Date.now();
     const sep = data.href.indexOf('?') === -1 ? '?' : '&';
     const cacheBust = sep + now;
-    reloadStylesheetEl(el, data.href + cacheBust);
+
+    reloadStylesheetEl(el, data.href + cacheBust, function() {
+      loading[data.href] = false;
+    });
   }
 
   function reloadPage () {
